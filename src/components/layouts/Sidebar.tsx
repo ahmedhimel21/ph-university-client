@@ -3,11 +3,17 @@ import { siderItemsGenerator } from "../../utils/siderItemsGenerator";
 import { adminPaths } from "../../routes/admin.routes";
 import { facultyPaths } from "../../routes/faculty.routes";
 import { studentPaths } from "../../routes/student.routes";
+import { useAppSelector } from "../../redux/hooks";
+import { RootState } from "../../redux/store";
+import { TUser } from "../../redux/features/auth/authSlice";
 
 const { Sider } = Layout;
 
 const Sidebar = () => {
-  const role = "admin";
+  const { role } = useAppSelector(
+    (state: RootState) => state.auth.user as TUser
+  );
+  // const role = "admin";
   let siderItems;
   const userRole = {
     ADMIN: "admin",

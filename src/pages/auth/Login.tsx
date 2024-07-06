@@ -4,6 +4,8 @@ import { useLoginMutation } from "../../redux/features/auth/authEndpoints";
 import { useAppDispatch } from "../../redux/hooks";
 import { setUser } from "../../redux/features/auth/authSlice";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 type TInputs = {
   id: string;
@@ -11,6 +13,7 @@ type TInputs = {
 };
 
 const Login = () => {
+  const navigate = useNavigate();
   const { register, handleSubmit } = useForm<TInputs>();
   const dispatch = useAppDispatch();
 
@@ -18,14 +21,21 @@ const Login = () => {
   console.log("error =>", error);
 
   const onSubmit: SubmitHandler<TInputs> = async (data) => {
-    const userInfo = {
-      id: data.id,
-      password: data.password,
-    };
-    const res = await login(userInfo).unwrap();
-    const { accessToken } = res.data;
-    const user = jwtDecode(accessToken);
-    dispatch(setUser({ user: user, token: accessToken }));
+    const toastId = toast.loading("login in-progress ");
+    try {
+      const userInfo = {
+        id: data.id,
+        password: data.password,
+      };
+      const res = await login(userInfo).unwrap();
+      const { accessToken } = res.data;
+      const user = jwtDecode(accessToken);
+      dispatch(setUser({ user: user, token: accessToken }));
+      toast.success("logged in successfully!", { duration: 2000, id: toastId });
+      navigate("/");
+    } catch (err) {
+      toast.error("Something went wrong", { duration: 2000, id: toastId });
+    }
   };
   return (
     <div
