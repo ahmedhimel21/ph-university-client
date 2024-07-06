@@ -1,6 +1,9 @@
 import { Button } from "antd";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useLoginMutation } from "../../redux/features/auth/authEndpoints";
+import { useAppDispatch } from "../../redux/hooks";
+import { setUser } from "../../redux/features/auth/authSlice";
+import { jwtDecode } from "jwt-decode";
 
 type TInputs = {
   id: string;
@@ -9,18 +12,20 @@ type TInputs = {
 
 const Login = () => {
   const { register, handleSubmit } = useForm<TInputs>();
+  const dispatch = useAppDispatch();
 
-  const [login, { data, error }] = useLoginMutation();
-
+  const [login, { error }] = useLoginMutation();
   console.log("error =>", error);
-  console.log("data =>", data);
 
-  const onSubmit: SubmitHandler<TInputs> = (data) => {
+  const onSubmit: SubmitHandler<TInputs> = async (data) => {
     const userInfo = {
       id: data.id,
       password: data.password,
     };
-    login(userInfo);
+    const res = await login(userInfo).unwrap();
+    const { accessToken } = res.data;
+    const user = jwtDecode(accessToken);
+    dispatch(setUser({ user: user, token: accessToken }));
   };
   return (
     <div
