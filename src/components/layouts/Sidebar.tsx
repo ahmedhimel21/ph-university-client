@@ -7,7 +7,7 @@ import { studentPaths } from "../../routes/student.routes";
 const { Sider } = Layout;
 
 const Sidebar = () => {
-  const role = "student";
+  const role = "admin";
   let siderItems;
   const userRole = {
     ADMIN: "admin",
