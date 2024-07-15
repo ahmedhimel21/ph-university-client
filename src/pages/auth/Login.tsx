@@ -1,11 +1,13 @@
 import { Button } from "antd";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useLoginMutation } from "../../redux/features/auth/authEndpoints";
+import { SubmitHandler } from "react-hook-form";
 import { useAppDispatch } from "../../redux/hooks";
 import { setUser } from "../../redux/features/auth/authSlice";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import PHForm from "../../components/form/PHForm";
+import PHInput from "../../components/form/PHInput";
+import authApi from "../../redux/features/auth/authEndpoints";
 
 type TInputs = {
   id: string;
@@ -14,13 +16,13 @@ type TInputs = {
 
 const Login = () => {
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm<TInputs>();
   const dispatch = useAppDispatch();
 
-  const [login, { error }] = useLoginMutation();
+  const [login, { error }] = authApi.useLoginMutation();
   console.log("error =>", error);
 
   const onSubmit: SubmitHandler<TInputs> = async (data) => {
+    console.log(data);
     const toastId = toast.loading("login in-progress ");
     try {
       const userInfo = {
@@ -46,28 +48,11 @@ const Login = () => {
         alignItems: "center",
       }}
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label htmlFor="id">ID:</label>
-          <input
-            type="text"
-            id="id"
-            placeholder="UserID"
-            {...register("id")}
-            defaultValue="A-0001"
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="text"
-            id="password"
-            {...register("password")}
-            defaultValue="admin@123"
-          />
-        </div>
+      <PHForm onSubmit={onSubmit}>
+        <PHInput type="text" name="id" label="ID:"></PHInput>
+        <PHInput type="text" name="password" label="Password:"></PHInput>
         <Button htmlType="submit">Submit</Button>
-      </form>
+      </PHForm>
     </div>
   );
 };
