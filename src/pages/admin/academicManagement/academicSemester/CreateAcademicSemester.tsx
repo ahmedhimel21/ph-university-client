@@ -6,7 +6,7 @@ import { semesterOptions } from "../../../../constants/Semester";
 import { monthOptions } from "../../../../constants/global";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { academicSemesterSchema } from "../../../../schemas/academicManagement.schema";
-import academicManagementApi from "../../../../redux/features/admin/academiManagement/academicManagementApi";
+import academicManagementApi from "../../../../redux/features/admin/academicManagement/academicManagementApi";
 import { toast } from "sonner";
 import { TResponse } from "../../../../types/global";
 
