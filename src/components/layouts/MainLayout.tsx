@@ -14,7 +14,7 @@ const MainLayout = () => {
     toast.success("Logged out successfully!", { duration: 2000 });
   };
   return (
-    <Layout style={{ height: "100vh" }}>
+    <Layout style={{ height: "100%" }}>
       <Sidebar></Sidebar>
       <Layout>
         <Header>
