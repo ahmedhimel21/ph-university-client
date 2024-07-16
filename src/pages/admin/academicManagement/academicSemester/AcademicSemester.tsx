@@ -2,6 +2,7 @@ import { Table, TableColumnsType, TableProps } from "antd";
 import academicManagementApi from "../../../../redux/features/admin/academicManagement/academicManagementApi";
 import { TAcademicSemester } from "../../../../types";
 import { useState } from "react";
+import { TQueryParams } from "../../../../types/global.types";
 
 type TTableData = Pick<
   TAcademicSemester,
@@ -9,9 +10,12 @@ type TTableData = Pick<
 >;
 
 const AcademicSemester = () => {
-  const [params, setParams] = useState([]);
-  const { data: semesterData } =
-    academicManagementApi.useGetAcademicSemesterQuery(params);
+  const [params, setParams] = useState<TQueryParams[] | undefined>(undefined);
+  const {
+    data: semesterData,
+    isLoading,
+    isFetching,
+  } = academicManagementApi.useGetAcademicSemesterQuery(params);
 
   const tableData = (semesterData?.data as TAcademicSemester[])?.map(
     ({ name, year, startMonth, endMonth }) => ({
@@ -60,18 +64,27 @@ const AcademicSemester = () => {
   ];
 
   const onChange: TableProps<TTableData>["onChange"] = (filters, extra) => {
-    console.log(extra, filters);
-    const queryParams = [];
+    const queryParams: TQueryParams[] = [];
     if (extra.name?.length) {
       extra.name.forEach((item) => {
-        console.log("item =>", item);
         queryParams.push({ name: "name", value: item });
       });
       setParams(queryParams);
     }
   };
 
-  return <Table columns={columns} dataSource={tableData} onChange={onChange} />;
+  if (isLoading) {
+    <p>Loading...</p>;
+  }
+
+  return (
+    <Table
+      loading={isFetching}
+      columns={columns}
+      dataSource={tableData}
+      onChange={onChange}
+    />
+  );
 };
 
 export default AcademicSemester;
