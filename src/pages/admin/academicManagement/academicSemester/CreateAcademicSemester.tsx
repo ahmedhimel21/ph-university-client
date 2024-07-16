@@ -1,11 +1,11 @@
 import { FieldValues, SubmitHandler } from "react-hook-form";
-import PHForm from "../../../components/form/PHForm";
+import PHForm from "../../../../components/form/PHForm";
 import { Button, Col, Flex } from "antd";
-import PHSelect from "../../../components/form/PHSelect";
-import { semesterOptions } from "../../../constants/Semester";
-import { monthOptions } from "../../../constants/global";
+import PHSelect from "../../../../components/form/PHSelect";
+import { semesterOptions } from "../../../../constants/Semester";
+import { monthOptions } from "../../../../constants/global";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { academicSemesterSchema } from "../../../schemas/academicManagement.schema";
+import { academicSemesterSchema } from "../../../../schemas/academicManagement.schema";
 
 const currentYear = new Date().getFullYear();
 const yearOptions = [0, 1, 2, 3, 4].map((number) => ({

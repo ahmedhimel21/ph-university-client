@@ -1,5 +1,5 @@
-import AcademicSemester from "../pages/admin/academicSemester/AcademicSemester";
-import CreateAcademicSemester from "../pages/admin/academicSemester/CreateAcademicSemester";
+import AcademicSemester from "../pages/admin/academicManagement/academicSemester/AcademicSemester";
+import CreateAcademicSemester from "../pages/admin/academicManagement/academicSemester/CreateAcademicSemester";
 import CreateAdmin from "../pages/admin/CreateAdmin";
 import CreateFaculty from "../pages/admin/CreateFaculty";
 import CreateStudent from "../pages/admin/CreateStudent";
